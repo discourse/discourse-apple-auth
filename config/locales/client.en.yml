@@ -1,0 +1,7 @@
+en:
+  js:
+    login:
+      apple:
+        name: "Apple"
+        title: "Sign-in with Apple"
+        message: "Authenticating with Apple (make sure pop up blockers are not enabled)"

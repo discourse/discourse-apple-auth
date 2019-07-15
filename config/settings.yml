@@ -1,0 +1,16 @@
+plugins:
+  sign_in_with_apple_enabled:
+    client: true
+    default: false
+  apple_client_id:
+    client: false
+    default: ''
+  apple_team_id:
+    client: false
+    default: ''
+  apple_key_id:
+    client: false
+    default: ''
+  apple_private_key:
+    client: false
+    default: ''
