@@ -4,4 +4,4 @@ en:
     apple_client_id: 'Apple Client ID (need one? visit <a href="https://developer.apple.com">https://developer.apple.com</a>)'
     apple_team_id: 'Apple Team ID'
     apple_key_id: 'Apple Key ID'
-    apple_private_key: 'Apple Private Key'
+    apple_pem: 'Apple Pem File Content (make sure you replace spaces that were new lines with the $ symbol)'

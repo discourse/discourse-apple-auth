@@ -37,7 +37,7 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
             strategy.options[:client_id] = SiteSetting.apple_client_id
             strategy.options[:team_id] = SiteSetting.apple_team_id
             strategy.options[:key_id] = SiteSetting.apple_key_id
-            strategy.options[:pem] = SiteSetting.apple_private_key
+            strategy.options[:pem] = (SiteSetting.apple_pem).gsub('$',"\n")
             strategy.options[:info_fields] = 'email, name'
          },
          scope: 'email name'

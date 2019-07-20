@@ -11,6 +11,6 @@ plugins:
   apple_key_id:
     client: false
     default: ''
-  apple_private_key:
+  apple_pem:
     client: false
     default: ''
