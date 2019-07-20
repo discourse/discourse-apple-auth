@@ -12,8 +12,9 @@ gem 'bindata', '2.4.4'
 gem 'json-jwt', '1.10.2', { require: false }
 gem 'omniauth-apple', '0.0.1'
 
+require 'json/jwt'
+require 'omniauth-apple'
 require 'auth/oauth2_authenticator'
-require 'json-jwt'
 
 register_svg_icon "fab-apple" if respond_to?(:register_svg_icon)
 
@@ -36,7 +37,7 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
             strategy.options[:client_id] = SiteSetting.apple_client_id
             strategy.options[:team_id] = SiteSetting.apple_team_id
             strategy.options[:key_id] = SiteSetting.apple_key_id
-            strategy.options[:private_key] = SiteSetting.apple_private_key
+            strategy.options[:pem] = SiteSetting.apple_private_key
             strategy.options[:info_fields] = 'email, name'
          },
          scope: 'email name'
