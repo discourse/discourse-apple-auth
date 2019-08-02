@@ -62,7 +62,8 @@ end
 auth_provider icon: 'fab-apple',
               frame_width: 920,
               frame_height: 800,
-              authenticator: AppleAuthenticator.new
+              authenticator: AppleAuthenticator.new,
+              full_screen_login: true
 
 register_css <<CSS
 
