@@ -14,3 +14,7 @@ plugins:
   apple_pem:
     client: false
     default: ''
+    textarea: true
+  apple_verification_txt:
+    default: ''
+    textarea: true
