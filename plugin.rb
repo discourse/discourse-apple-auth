@@ -10,7 +10,7 @@
 gem 'aes_key_wrap', '1.0.1'
 gem 'bindata', '2.4.4'
 gem 'json-jwt', '1.10.2', { require: false }
-gem 'omniauth-apple', '0.0.1'
+gem 'omniauth-apple', '1.0.0'
 
 require 'json/jwt'
 require 'omniauth-apple'
