@@ -6,15 +6,9 @@
 # authors: Robert Barrow
 # url: https://github.com/merefield/discourse-apple-auth
 
+gem 'omniauth-apple', '1.0.0'
 
-gem 'aes_key_wrap', '1.0.1'
-gem 'bindata', '2.4.4'
-gem 'json-jwt', '1.10.2', { require: false }
-gem 'omniauth-apple', '0.0.1'
-
-require 'json/jwt'
 require 'omniauth-apple'
-require 'auth/oauth2_authenticator'
 
 register_svg_icon "fab-apple" if respond_to?(:register_svg_icon)
 
