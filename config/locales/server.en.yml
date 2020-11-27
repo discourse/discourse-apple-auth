@@ -1,8 +1,8 @@
 en:
   site_settings:
-    sign_in_with_apple_enabled: 'Allow users to sign in with their Apple ID?'
-    apple_client_id: "The Apple 'Service Identifier' from the developer console. Normally a reverse-domain name style string (e.g. com.example.auth)"
-    apple_team_id: 'Apple Team ID (10 characters)'
-    apple_key_id: 'Apple Key ID (10 characters)'
-    apple_pem: 'Apple Pem File Content. Include the BEGIN and END lines'
-    apple_verification_txt: "Paste the content of the web domain verification file here. It will be served at /.well-known/apple-developer-domain-association.txt"
+    sign_in_with_apple_enabled: 'Enable sign in with Apple?'
+    apple_client_id: "(Sign in with Apple) The Apple 'Service Identifier' from the developer console. Normally a reverse-domain name style string (e.g. com.example.auth) (Sign in with Apple)"
+    apple_team_id: '(Sign in with Apple) Apple Team ID (10 characters)'
+    apple_key_id: '(Sign in with Apple) Apple Key ID (10 characters)'
+    apple_pem: '(Sign in with Apple) Apple Pem File Content. Include the BEGIN and END lines'
+    apple_verification_txt: "(Sign in with Apple) Paste the content of the web domain verification file here. It will be served at /.well-known/apple-developer-domain-association.txt"

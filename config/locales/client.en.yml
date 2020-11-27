@@ -3,5 +3,5 @@ en:
     login:
       apple:
         name: "Apple"
-        title: "Sign-in with Apple"
-        message: "Authenticating with Apple (make sure pop up blockers are not enabled)"
+        title: "with Apple"
+        message: "Authenticating with Apple"

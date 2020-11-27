@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 # name: discourse-apple-auth
-# about: Enable Login via Apple services aka "Sign-in with Apple"
-# version: 0.1
-# authors: Robert Barrow
-# url: https://github.com/merefield/discourse-apple-auth
+# about: Enable login via "Sign-in with Apple"
+# version: 1.0
+# authors: Robert Barrow, David Taylor
+# url: https://github.com/discourse/discourse-auth-apple
 
-gem 'omniauth-apple', '1.0.0'
+require_relative "lib/omniauth_apple"
 
-require 'omniauth-apple'
-
-register_svg_icon "fab-apple" if respond_to?(:register_svg_icon)
+register_svg_icon "fab-apple"
 
 enabled_site_setting :sign_in_with_apple_enabled
+
+register_asset "stylesheets/apple-auth.scss"
 
 after_initialize do
   class ::AppleVerificationController < ::ApplicationController
@@ -30,7 +30,6 @@ after_initialize do
 end
 
 class AppleAuthenticator < ::Auth::ManagedAuthenticator
-
   def name
     'apple'
   end
@@ -47,22 +46,9 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
             strategy.options[:team_id] = SiteSetting.apple_team_id
             strategy.options[:key_id] = SiteSetting.apple_key_id
             strategy.options[:pem] = SiteSetting.apple_pem
-            strategy.options[:info_fields] = 'email,name'
-          },
-          scope: 'email name'
+          }
   end
 end
 
 auth_provider icon: 'fab-apple',
-              frame_width: 920,
-              frame_height: 800,
-              authenticator: AppleAuthenticator.new,
-              full_screen_login: true
-
-register_css <<CSS
-
-.btn-social.apple {
-  background: #000000;
-}
-
-CSS
+              authenticator: AppleAuthenticator.new

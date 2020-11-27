@@ -1,6 +1,6 @@
-# discourse-sign-in-with-apple
-Login to Discourse with your Apple ID
+# discourse-apple-auth
+Login to Discourse using 'Sign in with Apple'
 
-**NOT** currently Production-worthy due to upstream issues discussed [here](https://meta.discourse.org/t/sign-in-with-apple/122790/22?u=merefield) and [here](https://meta.discourse.org/t/sign-in-with-apple/122790/35?u=merefield)
+For information and support, see https://meta.discourse.org/t/sign-in-with-apple-plugin/171485
 
 
