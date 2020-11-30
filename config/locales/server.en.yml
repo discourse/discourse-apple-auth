@@ -5,4 +5,3 @@ en:
     apple_team_id: '(Sign in with Apple) Apple Team ID (10 characters)'
     apple_key_id: '(Sign in with Apple) Apple Key ID (10 characters)'
     apple_pem: '(Sign in with Apple) Apple Pem File Content. Include the BEGIN and END lines'
-    apple_verification_txt: "(Sign in with Apple) Paste the content of the web domain verification file here. It will be served at /.well-known/apple-developer-domain-association.txt"
