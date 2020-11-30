@@ -6,12 +6,18 @@ require 'rails_helper'
 pem = ::OpenSSL::PKey::EC.generate('prime256v1').to_pem
 
 describe "sign in with apple" do
+  let(:jwk) { ::JWT::JWK.new(OpenSSL::PKey::RSA.generate(1024)) }
+
   before do
+    Discourse.cache.delete("sign-in-with-apple-jwks")
     SiteSetting.sign_in_with_apple_enabled = true
     SiteSetting.apple_client_id = "myclientid"
     SiteSetting.apple_team_id = "myteamid"
     SiteSetting.apple_key_id = "mykeyid"
     SiteSetting.apple_pem = pem
+
+    stub_request(:get, "https://appleid.apple.com/auth/keys").
+      to_return(body: { keys: [jwk.export] }.to_json)
   end
 
   let(:user_payload) do
@@ -94,7 +100,7 @@ describe "sign in with apple" do
               aud: "myclientid",
               sub: "unique-user-id",
               email: "verified-email@example.com",
-            }, nil, 'none'),
+            }, jwk.keypair, 'RS256', { kid: jwk.kid }),
             refresh_token: "wedontusethis",
             token_type: "bearer"
           }.to_json,

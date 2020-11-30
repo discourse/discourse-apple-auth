@@ -38,6 +38,16 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
     SiteSetting.sign_in_with_apple_enabled?
   end
 
+  def fetch_jwks(options)
+    Discourse.cache.fetch("sign-in-with-apple-jwks", expires_in: 1.day) do
+      connection = Faraday.new { |c| c.use Faraday::Response::RaiseError }
+      JSON.parse(connection.get("https://appleid.apple.com/auth/keys").body, symbolize_names: true)
+    end
+  rescue Faraday::Error, JSON::ParserError => e
+    Rails.logger.error("Unable to fetch sign-in-with-apple-jwks #{e.class} #{e.message}")
+    nil
+  end
+
   def register_middleware(omniauth)
     omniauth.provider :apple,
           setup: lambda { |env|
@@ -46,6 +56,7 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
             strategy.options[:team_id] = SiteSetting.apple_team_id
             strategy.options[:key_id] = SiteSetting.apple_key_id
             strategy.options[:pem] = SiteSetting.apple_pem
+            strategy.options[:jwk_fetcher] = ->(options) { fetch_jwks(options) }
           }
   end
 end
