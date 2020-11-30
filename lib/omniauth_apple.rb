@@ -77,19 +77,21 @@ module OmniAuth
         # Verify the claims in the JWT
         # The signature does not need to be verified because the
         # token was acquired via a direct server-server connection to the issuer
+        # But we verify it anyway to be double-safe
         @id_token_info ||= begin
-          decoded, _h = ::JWT.decode(access_token['id_token'], nil, false)
-
-          ::JWT::Verify.verify_claims(decoded,
+          id_token = access_token.params['id_token']
+          jwt_options = {
             verify_iss: true,
             iss: 'https://appleid.apple.com',
             verify_aud: true,
             aud: options.client_id,
             verify_not_before: true,
             verify_expiration: true,
-          )
-
-          decoded
+            algorithms: ['RS256'],
+            jwks: options.jwk_fetcher
+          }
+          payload, _header = ::JWT.decode(id_token, nil, true, jwt_options)
+          payload
         end
       end
 
