@@ -14,21 +14,6 @@ enabled_site_setting :sign_in_with_apple_enabled
 
 register_asset "stylesheets/apple-auth.scss"
 
-after_initialize do
-  class ::AppleVerificationController < ::ApplicationController
-    skip_before_action :check_xhr, :redirect_to_login_if_required
-
-    def index
-      raise Discourse::NotFound unless SiteSetting.apple_verification_txt.present?
-      render plain: SiteSetting.apple_verification_txt
-    end
-  end
-
-  Discourse::Application.routes.append do
-    get '/.well-known/apple-developer-domain-association.txt' => "apple_verification#index"
-  end
-end
-
 class AppleAuthenticator < ::Auth::ManagedAuthenticator
   def name
     'apple'
