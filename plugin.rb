@@ -4,7 +4,7 @@
 # about: Enable login via "Sign-in with Apple"
 # version: 1.0
 # authors: Robert Barrow, David Taylor
-# url: https://github.com/discourse/discourse-auth-apple
+# url: https://github.com/discourse/discourse-apple-auth
 
 require_relative "lib/omniauth_apple"
 
