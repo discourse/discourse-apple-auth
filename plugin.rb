@@ -12,8 +12,6 @@ register_svg_icon "fab-apple"
 
 enabled_site_setting :sign_in_with_apple_enabled
 
-register_asset "stylesheets/apple-auth.scss"
-
 class AppleAuthenticator < ::Auth::ManagedAuthenticator
   def name
     'apple'
