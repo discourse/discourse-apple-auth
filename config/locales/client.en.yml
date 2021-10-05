@@ -4,4 +4,5 @@ en:
       apple:
         name: "Apple"
         title: "with Apple"
+        sr_title: "Login with Apple"
         message: "Authenticating with Apple"
