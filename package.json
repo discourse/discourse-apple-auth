@@ -1,0 +1,10 @@
+{
+  "name": "discourse-apple-auth",
+  "version": "1.0",
+  "repository": "https://github.com/discourse/discourse-apple-auth",
+  "author": "Robert Barrow, David Taylor",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "eslint-config-discourse": "^1.1.9"
+  }
+}
