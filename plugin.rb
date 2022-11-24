@@ -43,8 +43,8 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
           }
   end
 
-  # apple requires email verification to create your account so the email we
-  # get from them has to be verified
+  # apple requires email verification to create an account so we can assume
+  # email is verified
   def primary_email_verified?(auth_token)
     true
   end
