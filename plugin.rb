@@ -42,6 +42,12 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
             strategy.options[:jwk_fetcher] = ->(options) { fetch_jwks(options) }
           }
   end
+
+  # apple requires email verification to create an account so we can assume
+  # email is verified
+  def primary_email_verified?(auth_token)
+    true
+  end
 end
 
 auth_provider icon: 'fab-apple',
