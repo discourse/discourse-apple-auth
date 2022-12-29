@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/omniauth_apple'
-require 'rails_helper'
+require_relative "../../lib/omniauth_apple"
+require "rails_helper"
 
-pem = ::OpenSSL::PKey::EC.generate('prime256v1').to_pem
+pem = ::OpenSSL::PKey::EC.generate("prime256v1").to_pem
 
 describe "sign in with apple" do
   let(:jwk) { ::JWT::JWK.new(OpenSSL::PKey::RSA.generate(1024)) }
@@ -16,18 +16,13 @@ describe "sign in with apple" do
     SiteSetting.apple_key_id = "mykeyid"
     SiteSetting.apple_pem = pem
 
-    stub_request(:get, "https://appleid.apple.com/auth/keys").
-      to_return(body: { keys: [jwk.export] }.to_json)
+    stub_request(:get, "https://appleid.apple.com/auth/keys").to_return(
+      body: { keys: [jwk.export] }.to_json,
+    )
   end
 
   let(:user_payload) do
-    {
-      email: "maybe-spoofed-email@example.com",
-      name: {
-        firstName: "Disco",
-        lastName: "Bot"
-      }
-    }
+    { email: "maybe-spoofed-email@example.com", name: { firstName: "Disco", lastName: "Bot" } }
   end
 
   it "starts the flow correctly" do
@@ -42,20 +37,20 @@ describe "sign in with apple" do
     # with samesite=lax cookies
 
     it "redirects to GET" do
-      post "/auth/apple/callback", params: {
-        code: "supersecretcode",
-        state: "uniquestate",
-      }
+      post "/auth/apple/callback", params: { code: "supersecretcode", state: "uniquestate" }
       expect(response.status).to eq(302)
-      expect(response.location).to eq("http://test.localhost/auth/apple/callback?code=supersecretcode&state=uniquestate")
+      expect(response.location).to eq(
+        "http://test.localhost/auth/apple/callback?code=supersecretcode&state=uniquestate",
+      )
     end
 
     it "includes the user data if present" do
-      post "/auth/apple/callback", params: {
-        code: "supersecretcode",
-        state: "uniquestate",
-        user: user_payload.to_json
-      }
+      post "/auth/apple/callback",
+           params: {
+             code: "supersecretcode",
+             state: "uniquestate",
+             user: user_payload.to_json,
+           }
       expect(response.status).to eq(302)
       expect(response.location).to include("user=%7B")
     end
@@ -95,18 +90,24 @@ describe "sign in with apple" do
           body: {
             access_token: "wedontusethis",
             expires_in: 10,
-            id_token: ::JWT.encode({
-              iss: "https://appleid.apple.com",
-              aud: "myclientid",
-              sub: "unique-user-id",
-              email: "verified-email@example.com",
-            }, jwk.keypair, 'RS256', { kid: jwk.kid }),
+            id_token:
+              ::JWT.encode(
+                {
+                  iss: "https://appleid.apple.com",
+                  aud: "myclientid",
+                  sub: "unique-user-id",
+                  email: "verified-email@example.com",
+                },
+                jwk.keypair,
+                "RS256",
+                { kid: jwk.kid },
+              ),
             refresh_token: "wedontusethis",
-            token_type: "bearer"
+            token_type: "bearer",
           }.to_json,
           headers: {
-            "Content-Type" => "application/json"
-          }
+            "Content-Type" => "application/json",
+          },
         }
       end
     end
@@ -114,12 +115,13 @@ describe "sign in with apple" do
     it "works" do
       # Like an OAuth2 callback, but with some apple-specific stuff per
       # https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_js/incorporating_sign_in_with_apple_into_other_platforms
-      get "/auth/apple/callback", params: {
-        code: "supersecretcode",
-        state: session['omniauth.state'],
-        id_token: JWT.encode({ email: "wedontusethis" }, nil, 'none'),
-        user: user_payload.to_json
-      }
+      get "/auth/apple/callback",
+          params: {
+            code: "supersecretcode",
+            state: session["omniauth.state"],
+            id_token: JWT.encode({ email: "wedontusethis" }, nil, "none"),
+            user: user_payload.to_json,
+          }
       expect(response.status).to eq(302)
       expect(response.location).to eq("http://test.localhost/")
 
@@ -129,5 +131,4 @@ describe "sign in with apple" do
       expect(result.extra_data[:uid]).to eq("unique-user-id")
     end
   end
-
 end

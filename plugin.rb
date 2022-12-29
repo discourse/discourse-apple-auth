@@ -14,7 +14,7 @@ enabled_site_setting :sign_in_with_apple_enabled
 
 class AppleAuthenticator < ::Auth::ManagedAuthenticator
   def name
-    'apple'
+    "apple"
   end
 
   def enabled?
@@ -22,10 +22,15 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
   end
 
   def fetch_jwks(options)
-    Discourse.cache.fetch("sign-in-with-apple-jwks", expires_in: 1.day) do
-      connection = Faraday.new { |c| c.use Faraday::Response::RaiseError }
-      JSON.parse(connection.get("https://appleid.apple.com/auth/keys").body, symbolize_names: true)
-    end
+    Discourse
+      .cache
+      .fetch("sign-in-with-apple-jwks", expires_in: 1.day) do
+        connection = Faraday.new { |c| c.use Faraday::Response::RaiseError }
+        JSON.parse(
+          connection.get("https://appleid.apple.com/auth/keys").body,
+          symbolize_names: true,
+        )
+      end
   rescue Faraday::Error, JSON::ParserError => e
     Rails.logger.error("Unable to fetch sign-in-with-apple-jwks #{e.class} #{e.message}")
     nil
@@ -33,14 +38,15 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
 
   def register_middleware(omniauth)
     omniauth.provider :apple,
-          setup: lambda { |env|
-            strategy = env["omniauth.strategy"]
-            strategy.options[:client_id] = SiteSetting.apple_client_id
-            strategy.options[:team_id] = SiteSetting.apple_team_id
-            strategy.options[:key_id] = SiteSetting.apple_key_id
-            strategy.options[:pem] = SiteSetting.apple_pem
-            strategy.options[:jwk_fetcher] = ->(options) { fetch_jwks(options) }
-          }
+                      setup:
+                        lambda { |env|
+                          strategy = env["omniauth.strategy"]
+                          strategy.options[:client_id] = SiteSetting.apple_client_id
+                          strategy.options[:team_id] = SiteSetting.apple_team_id
+                          strategy.options[:key_id] = SiteSetting.apple_key_id
+                          strategy.options[:pem] = SiteSetting.apple_pem
+                          strategy.options[:jwk_fetcher] = ->(options) { fetch_jwks(options) }
+                        }
   end
 
   # apple requires email verification to create an account so we can assume
@@ -50,5 +56,4 @@ class AppleAuthenticator < ::Auth::ManagedAuthenticator
   end
 end
 
-auth_provider icon: 'fab-apple',
-              authenticator: AppleAuthenticator.new
+auth_provider icon: "fab-apple", authenticator: AppleAuthenticator.new
