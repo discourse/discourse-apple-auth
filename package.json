@@ -5,6 +5,6 @@
   "author": "Robert Barrow, David Taylor",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "eslint-config-discourse": "^3.3.0"
+    "eslint-config-discourse": "^3.4.0"
   }
 }
