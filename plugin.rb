@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # name: discourse-apple-auth
-# about: Enable login via "Sign-in with Apple"
+# about: Allows users to login using Apple authentication.
+# meta_topic_id: 171485
 # version: 1.0
 # authors: Robert Barrow, David Taylor
 # url: https://github.com/discourse/discourse-apple-auth
